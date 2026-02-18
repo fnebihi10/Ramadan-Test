@@ -3,43 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Ramadan 30 · Dhikr & Namaze</title>
+    <title>Ramadan 30 Pro · Dhikr & Namaze</title>
+    <!-- Font për ikona (FontAwesome) – për një pamje më profesionale -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background: #1e2b36;
+            background: linear-gradient(145deg, #1a2a38 0%, #0f1e2b 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            padding: 10px;
+            padding: 12px;
         }
 
         .app-container {
             width: 100%;
-            max-width: 480px;
-            background: #fef9e7;
-            border-radius: 32px 32px 24px 24px;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
-            border: 1px solid #c9a03d40;
+            max-width: 500px;
+            background: #fef9f0;
+            border-radius: 40px 40px 30px 30px;
+            box-shadow: 0 25px 40px -10px rgba(0,0,0,0.5);
+            border: 1px solid rgba(201, 160, 61, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
         }
 
         .header {
             background: #1e2b36;
-            padding: 24px 20px 18px;
+            padding: 28px 20px 20px;
             color: #fef9e7;
             text-align: center;
             border-bottom: 3px solid #c9a03d;
+            position: relative;
         }
 
         .header h1 {
             font-weight: 400;
-            font-size: 2rem;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
         }
 
         .header h1 span {
@@ -47,6 +53,35 @@
             font-size: 1rem;
             display: block;
             color: #c9a03d;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        .day-summary {
+            background: #2a3b48;
+            margin: 15px 15px 0 15px;
+            padding: 15px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-around;
+            color: white;
+            font-size: 0.9rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-item i {
+            color: #c9a03d;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .summary-value {
+            font-weight: 700;
+            font-size: 1.2rem;
         }
 
         .day-nav {
@@ -70,18 +105,24 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: 0.2s;
             font-weight: bold;
         }
 
         .nav-btn:active {
             background: #c9a03d;
             color: white;
+            transform: scale(0.95);
         }
 
         .day-display {
             font-size: 1.5rem;
             font-weight: 600;
             color: #1e2b36;
+            background: #fef9e7;
+            padding: 5px 20px;
+            border-radius: 40px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .day-display small {
@@ -96,125 +137,161 @@
             max-height: 70vh;
             overflow-y: auto;
             scrollbar-width: thin;
+            scrollbar-color: #c9a03d #f0e4d0;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .content::-webkit-scrollbar-track {
+            background: #f0e4d0;
+            border-radius: 10px;
+        }
+        .content::-webkit-scrollbar-thumb {
+            background: #c9a03d;
+            border-radius: 10px;
         }
 
         .section {
             margin-bottom: 28px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 30px;
+            padding: 18px 16px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(201,160,61,0.2);
         }
 
         .section-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #1e2b36;
             border-left: 6px solid #c9a03d;
             padding-left: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title i {
+            color: #c9a03d;
+            font-size: 1.4rem;
         }
 
         /* prayer grid */
         .prayer-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 10px;
         }
 
         .prayer-item {
             background: white;
-            border-radius: 30px;
-            padding: 8px 12px 8px 8px;
+            border-radius: 50px;
+            padding: 10px 16px 10px 10px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             border: 1px solid #e5d9c7;
+            transition: 0.2s;
+        }
+        .prayer-item:hover {
+            border-color: #c9a03d;
         }
 
         .prayer-item input[type="checkbox"] {
             width: 26px;
             height: 26px;
             accent-color: #c9a03d;
+            border-radius: 8px;
         }
 
         .prayer-name {
             font-weight: 600;
             color: #1e2b36;
         }
-
         .prayer-name small {
             font-weight: 400;
             font-size: 0.7rem;
             color: #8e7b5e;
             display: block;
+            line-height: 1.2;
         }
 
-        /* voluntary prayers */
-        .voluntary-row {
+        /* voluntary prayer counters */
+        .voluntary-counters {
             display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .counter-card {
+            background: white;
+            border-radius: 30px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .voluntary-item {
-            background: white;
-            border-radius: 40px;
-            padding: 10px 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid #c9a03d;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .voluntary-item input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
-            accent-color: #c9a03d;
-        }
-
-        /* taraweeh counter */
-        .counter-row {
-            background: white;
-            border-radius: 40px;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
             gap: 15px;
             border: 1px solid #e5d9c7;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
         }
-
-        .counter-row label {
-            font-weight: 600;
+        .counter-icon {
+            background: #c9a03d20;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c9a03d;
+            font-size: 1.5rem;
+        }
+        .counter-info {
+            flex: 2;
+        }
+        .counter-info strong {
+            font-size: 1.1rem;
             color: #1e2b36;
-            min-width: 140px;
         }
-
-        .counter-row input {
-            width: 80px;
+        .counter-info small {
+            color: #8e7b5e;
+            font-size: 0.8rem;
+            display: block;
+        }
+        .counter-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f3e9;
+            border-radius: 40px;
+            padding: 5px 15px;
+        }
+        .counter-input input {
+            width: 70px;
             border: none;
             border-bottom: 2px solid #c9a03d;
             background: transparent;
             text-align: center;
             font-size: 1.2rem;
-            padding: 5px;
+            font-weight: 600;
+            padding: 5px 0;
         }
-
-        .counter-row input:focus {
+        .counter-input input:focus {
             outline: none;
         }
-
-        .counter-row span {
-            color: #8e7b5e;
+        .counter-input span {
+            color: #5d6d7e;
+            font-size: 0.9rem;
         }
 
-        /* dhikr cards (unchanged) */
+        /* dhikr cards */
         .dhikr-grid {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
-
         .dhikr-card {
             background: white;
             border-radius: 20px;
@@ -226,20 +303,17 @@
             border: 1px solid #e5d9c7;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-
         .dhikr-check {
             display: flex;
             align-items: center;
             gap: 8px;
             min-width: 40px;
         }
-
         .dhikr-check input[type="checkbox"] {
             width: 22px;
             height: 22px;
             accent-color: #c9a03d;
         }
-
         .dhikr-text {
             flex: 2;
             font-size: 0.95rem;
@@ -247,13 +321,11 @@
             line-height: 1.4;
             min-width: 180px;
         }
-
         .arabic-note {
             font-size: 0.85rem;
             color: #c9a03d;
             font-style: italic;
         }
-
         .dhikr-counter {
             display: flex;
             align-items: center;
@@ -262,7 +334,6 @@
             border-radius: 40px;
             padding: 4px 12px;
         }
-
         .dhikr-counter input {
             width: 65px;
             border: none;
@@ -272,7 +343,6 @@
             font-size: 1rem;
             padding: 4px 0;
         }
-
         .dhikr-counter input:focus {
             outline: none;
         }
@@ -280,21 +350,19 @@
         /* other inputs */
         .input-row {
             background: white;
-            border-radius: 20px;
-            padding: 12px 18px;
+            border-radius: 30px;
+            padding: 14px 20px;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 12px;
             border: 1px solid #e5d9c7;
         }
-
         .input-row label {
             font-weight: 600;
             min-width: 110px;
             color: #1e2b36;
         }
-
         .input-row input, .input-row textarea {
             flex: 1;
             border: none;
@@ -303,24 +371,22 @@
             padding: 6px 0;
             font-size: 1rem;
         }
-
         .input-row textarea {
             border: 1px solid #eee;
             border-radius: 12px;
             padding: 8px;
             min-height: 60px;
         }
-
         .full-width {
             flex-direction: column;
             align-items: flex-start;
             gap: 6px;
         }
-
         .full-width textarea {
             width: 100%;
         }
 
+        /* action buttons */
         .save-btn {
             background: #c9a03d;
             border: none;
@@ -329,30 +395,36 @@
             font-size: 1.4rem;
             font-weight: 600;
             color: #1e2b36;
-            border-radius: 50px;
+            border-radius: 60px;
             margin: 10px 0;
             box-shadow: 0 8px 0 #8f6f2c;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 2px;
+            transition: 0.1s;
         }
-
         .save-btn:active {
             transform: translateY(5px);
             box-shadow: 0 3px 0 #8f6f2c;
         }
-
         .export-btn {
             background: transparent;
             border: 2px solid #c9a03d;
             color: #1e2b36;
             padding: 12px;
-            border-radius: 40px;
+            border-radius: 50px;
             width: 100%;
             font-weight: 600;
             cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
         }
-
+        .export-btn i {
+            margin-right: 8px;
+        }
+        .export-btn:active {
+            background: #c9a03d20;
+        }
         .footer-note {
             text-align: center;
             font-size: 0.8rem;
@@ -364,13 +436,21 @@
 <body>
 <div class="app-container" id="app">
     <div class="header">
-        <h1>RAMADAN 30 <span>Dhikr & Namaze</span></h1>
+        <h1>RAMADAN 30 <span>Gjurmues Pro</span></h1>
+    </div>
+
+    <!-- Përmbledhje e shpejtë ditore (përditësohet me JavaScript) -->
+    <div class="day-summary" id="daySummary">
+        <div class="summary-item"><i class="fas fa-mosque"></i><div class="summary-value" id="summaryFarz">0/5</div><div>Farz</div></div>
+        <div class="summary-item"><i class="fas fa-star-and-crescent"></i><div class="summary-value" id="summaryNafl">0</div><div>Nafl</div></div>
+        <div class="summary-item"><i class="fas fa-moon"></i><div class="summary-value" id="summaryTahajjud">0</div><div>Tahaxhud</div></div>
+        <div class="summary-item"><i class="fas fa-pray"></i><div class="summary-value" id="summaryTaraweeh">0/20</div><div>Teravi</div></div>
     </div>
 
     <div class="day-nav">
-        <button class="nav-btn" id="prevDay">←</button>
+        <button class="nav-btn" id="prevDay"><i class="fas fa-chevron-left"></i></button>
         <div class="day-display" id="dayDisplay">Dita 1 <small>1 Ramazan</small></div>
-        <button class="nav-btn" id="nextDay">→</button>
+        <button class="nav-btn" id="nextDay"><i class="fas fa-chevron-right"></i></button>
     </div>
 
     <div class="content" id="content">
@@ -378,15 +458,15 @@
     </div>
 
     <div style="padding: 0 20px 20px;">
-        <button class="save-btn" id="saveBtn">RUAJ</button>
-        <button class="export-btn" id="exportBtn">📤 Eksporto të dhënat</button>
-        <div class="footer-note">Të dhënat ruhen lokalisht në telefon</div>
+        <button class="save-btn" id="saveBtn"><i class="fas fa-save"></i> RUAJ</button>
+        <button class="export-btn" id="exportBtn"><i class="fas fa-download"></i> Eksporto të dhënat</button>
+        <div class="footer-note">Të dhënat ruhen vetëm në telefonin tuaj</div>
     </div>
 </div>
 
 <script>
     (function() {
-        // ---------- Struktura e një dite (e përmirësuar) ----------
+        // ---------- Struktura e një dite (versioni 4) ----------
         const defaultDay = {
             prayers: {
                 fajr: false,
@@ -394,9 +474,9 @@
                 asr: false,
                 maghrib: false,
                 isha: false,
-                nafl: false,            // namaz nafile
-                tahajjud: false,         // namaz nate
-                taraweehRakats: ''       // numri i rekateve (bosh = 0)
+                naflRakats: '',       // numri i rekateve për nafl
+                tahajjudRakats: '',    // numri i rekateve për tahaxhud
+                taraweehRakats: ''     // numri i rekateve për teravi
             },
             quranPages: '',
             quranSurahs: '',
@@ -428,22 +508,26 @@
             ramadanData.push(JSON.parse(JSON.stringify(defaultDay)));
         }
 
-        // Ngarko nga localStorage nëse ekziston
-        const stored = localStorage.getItem('ramadan30_data_dhikr_v3'); // Përdorim version të ri
+        // Ngarko nga localStorage (versioni i ri)
+        const stored = localStorage.getItem('ramadan30_data_v4');
         if (stored) {
             try {
                 const parsed = JSON.parse(stored);
                 if (Array.isArray(parsed) && parsed.length === 30) {
-                    // Migrimi nga versioni i vjetër (me taraweeh boolean)
+                    // Migrim nga versionet e vjetra
                     ramadanData = parsed.map(day => {
-                        // Nëse ka fushën e vjetër 'taraweeh' boolean, konverto
-                        if (day.prayers && typeof day.prayers.taraweeh === 'boolean') {
-                            day.prayers.taraweehRakats = day.prayers.taraweeh ? 20 : '';
-                            delete day.prayers.taraweeh;
+                        // Nëse ka fushën e vjetër 'nafl' boolean, konverto në numër (1 rekate = 2? por le të jetë 1 për thjeshtësi)
+                        if (day.prayers && typeof day.prayers.nafl === 'boolean') {
+                            day.prayers.naflRakats = day.prayers.nafl ? '2' : '';
+                            delete day.prayers.nafl;
                         }
-                        // Sigurohu që ka fushat e reja
-                        if (!day.prayers.nafl) day.prayers.nafl = false;
-                        if (!day.prayers.tahajjud) day.prayers.tahajjud = false;
+                        if (day.prayers && typeof day.prayers.tahajjud === 'boolean') {
+                            day.prayers.tahajjudRakats = day.prayers.tahajjud ? '2' : '';
+                            delete day.prayers.tahajjud;
+                        }
+                        // Siguro që ka fushat e reja
+                        if (!day.prayers.naflRakats) day.prayers.naflRakats = '';
+                        if (!day.prayers.tahajjudRakats) day.prayers.tahajjudRakats = '';
                         if (!day.prayers.taraweehRakats) day.prayers.taraweehRakats = '';
                         return day;
                     });
@@ -453,15 +537,31 @@
 
         let currentDay = 0; // 0-based
 
+        // Funksion për të rifreskuar përmbledhjen e shpejtë
+        function updateSummary() {
+            const d = ramadanData[currentDay];
+            const farzCount = [d.prayers.fajr, d.prayers.dhuhr, d.prayers.asr, d.prayers.maghrib, d.prayers.isha].filter(Boolean).length;
+            document.getElementById('summaryFarz').innerText = farzCount + '/5';
+
+            const naflRak = d.prayers.naflRakats || 0;
+            document.getElementById('summaryNafl').innerText = naflRak;
+
+            const tahajjudRak = d.prayers.tahajjudRakats || 0;
+            document.getElementById('summaryTahajjud').innerText = tahajjudRak;
+
+            const taraweehRak = d.prayers.taraweehRakats || 0;
+            document.getElementById('summaryTaraweeh').innerText = taraweehRak + '/20';
+        }
+
         // ---------- Render formën për ditën aktuale ----------
         function renderDay() {
             const d = ramadanData[currentDay];
             const dayNum = currentDay + 1;
 
             let html = `
-                <!-- NAMAZET FARZ (5 kohë) -->
+                <!-- NAMAZET FARZ -->
                 <div class="section">
-                    <div class="section-title">Namazet farz</div>
+                    <div class="section-title"><i class="fas fa-mosque"></i> Namazet farz</div>
                     <div class="prayer-grid">
                         <div class="prayer-item"><input type="checkbox" id="fajr" ${d.prayers.fajr ? 'checked' : ''}><label for="fajr" class="prayer-name">Fajr <small>Sabahu</small></label></div>
                         <div class="prayer-item"><input type="checkbox" id="dhuhr" ${d.prayers.dhuhr ? 'checked' : ''}><label for="dhuhr" class="prayer-name">Dhuhr <small>Dreka</small></label></div>
@@ -471,41 +571,59 @@
                     </div>
                 </div>
 
-                <!-- NAMAZET VULLNETARE -->
+                <!-- NAMAZET VULLNETARE (me numërues rekatesh) -->
                 <div class="section">
-                    <div class="section-title">Namazet vullnetare</div>
-                    <div class="voluntary-row">
-                        <div class="voluntary-item">
-                            <input type="checkbox" id="nafl" ${d.prayers.nafl ? 'checked' : ''}>
-                            <label for="nafl"><strong>Nafl</strong> <small style="color:#8e7b5e;">Nafile</small></label>
+                    <div class="section-title"><i class="fas fa-hands-praying"></i> Namazet vullnetare</div>
+                    <div class="voluntary-counters">
+                        <!-- Nafl -->
+                        <div class="counter-card">
+                            <div class="counter-icon"><i class="fas fa-sun"></i></div>
+                            <div class="counter-info">
+                                <strong>Nafl</strong>
+                                <small>Namaz nafile</small>
+                            </div>
+                            <div class="counter-input">
+                                <input type="number" id="naflRakats" min="0" max="100" step="1" value="${d.prayers.naflRakats}" placeholder="0">
+                                <span>rekate</span>
+                            </div>
                         </div>
-                        <div class="voluntary-item">
-                            <input type="checkbox" id="tahajjud" ${d.prayers.tahajjud ? 'checked' : ''}>
-                            <label for="tahajjud"><strong>Tahaxhud</strong> <small style="color:#8e7b5e;">Namaz nate</small></label>
+                        <!-- Tahaxhud -->
+                        <div class="counter-card">
+                            <div class="counter-icon"><i class="fas fa-moon"></i></div>
+                            <div class="counter-info">
+                                <strong>Tahaxhud</strong>
+                                <small>Namaz nate</small>
+                            </div>
+                            <div class="counter-input">
+                                <input type="number" id="tahajjudRakats" min="0" max="100" step="1" value="${d.prayers.tahajjudRakats}" placeholder="0">
+                                <span>rekate</span>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- TERAVITË -->
-                <div class="section">
-                    <div class="section-title">Namazi i teravive</div>
-                    <div class="counter-row">
-                        <label for="taraweehRakats">Sa rekate? (x/20):</label>
-                        <input type="number" id="taraweehRakats" min="0" max="20" step="1" value="${d.prayers.taraweehRakats}" placeholder="0">
-                        <span>rekate</span>
+                        <!-- Teravitë -->
+                        <div class="counter-card">
+                            <div class="counter-icon"><i class="fas fa-star"></i></div>
+                            <div class="counter-info">
+                                <strong>Teravitë</strong>
+                                <small>Namaz i teravive (20 rekate)</small>
+                            </div>
+                            <div class="counter-input">
+                                <input type="number" id="taraweehRakats" min="0" max="20" step="1" value="${d.prayers.taraweehRakats}" placeholder="0">
+                                <span>rekate</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- KURANI -->
                 <div class="section">
-                    <div class="section-title">Kurani</div>
-                    <div class="input-row"><label>Faqe të lexuara:</label><input type="text" id="quranPages" placeholder="p.sh. 10" value="${escapeHtml(d.quranPages)}"></div>
-                    <div class="input-row"><label>Sure / Xhuz:</label><input type="text" id="quranSurahs" placeholder="p.sh. Jasin" value="${escapeHtml(d.quranSurahs)}"></div>
+                    <div class="section-title"><i class="fas fa-book-open"></i> Kurani</div>
+                    <div class="input-row"><label><i class="fas fa-book" style="color:#c9a03d; margin-right:8px;"></i>Faqe të lexuara:</label><input type="text" id="quranPages" placeholder="p.sh. 10" value="${escapeHtml(d.quranPages)}"></div>
+                    <div class="input-row"><label><i class="fas fa-list" style="color:#c9a03d; margin-right:8px;"></i>Sure / Xhuz:</label><input type="text" id="quranSurahs" placeholder="p.sh. Jasin" value="${escapeHtml(d.quranSurahs)}"></div>
                 </div>
 
                 <!-- DHIKR & LUTJE (15 rreshtat) -->
                 <div class="section">
-                    <div class="section-title">Dhikr & Lutjet</div>
+                    <div class="section-title"><i class="fas fa-praying-hands"></i> Dhikr & Lutjet</div>
                     <div class="dhikr-grid">
             `;
 
@@ -552,7 +670,7 @@
 
                 <!-- LUTJA E DITËS -->
                 <div class="section">
-                    <div class="section-title">Lutja e ditës</div>
+                    <div class="section-title"><i class="fas fa-heart"></i> Lutja e ditës</div>
                     <div class="input-row full-width">
                         <textarea id="dua" rows="3" placeholder="Shkruaj lutjen tënde...">${escapeHtml(d.dua)}</textarea>
                     </div>
@@ -560,7 +678,7 @@
 
                 <!-- BAMIRËSIA -->
                 <div class="section">
-                    <div class="section-title">Bamirësia (sadeka)</div>
+                    <div class="section-title"><i class="fas fa-hand-holding-heart"></i> Bamirësia (sadeka)</div>
                     <div class="input-row">
                         <input type="text" id="charity" placeholder="Çfarë dhe sa?" value="${escapeHtml(d.charity)}">
                     </div>
@@ -568,7 +686,7 @@
 
                 <!-- REFLEKTIMI -->
                 <div class="section">
-                    <div class="section-title">Reflektimi ditor</div>
+                    <div class="section-title"><i class="fas fa-pen"></i> Reflektimi ditor</div>
                     <div class="input-row full-width">
                         <textarea id="reflection" rows="4" placeholder="Si u ndje sot? Çfarë mësove?">${escapeHtml(d.reflection)}</textarea>
                     </div>
@@ -577,6 +695,7 @@
 
             document.getElementById('content').innerHTML = html;
             document.getElementById('dayDisplay').innerHTML = `Dita ${dayNum} <small>${dayNum} Ramazan 1446</small>`;
+            updateSummary();
         }
 
         function escapeHtml(unsafe) {
@@ -601,11 +720,11 @@
             d.prayers.maghrib = document.getElementById('maghrib')?.checked || false;
             d.prayers.isha = document.getElementById('isha')?.checked || false;
 
-            // Vullnetare
-            d.prayers.nafl = document.getElementById('nafl')?.checked || false;
-            d.prayers.tahajjud = document.getElementById('tahajjud')?.checked || false;
-
-            // Teravitë
+            // Vullnetare (rekate)
+            const naflInput = document.getElementById('naflRakats');
+            d.prayers.naflRakats = naflInput ? naflInput.value : '';
+            const tahajjudInput = document.getElementById('tahajjudRakats');
+            d.prayers.tahajjudRakats = tahajjudInput ? tahajjudInput.value : '';
             const taraweehInput = document.getElementById('taraweehRakats');
             d.prayers.taraweehRakats = taraweehInput ? taraweehInput.value : '';
 
@@ -637,7 +756,8 @@
             d.charity = document.getElementById('charity')?.value || '';
             d.reflection = document.getElementById('reflection')?.value || '';
 
-            localStorage.setItem('ramadan30_data_dhikr_v3', JSON.stringify(ramadanData));
+            localStorage.setItem('ramadan30_data_v4', JSON.stringify(ramadanData));
+            updateSummary();
         }
 
         // ---------- Event listeners ----------
@@ -673,7 +793,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `ramadan30_dhikr_${new Date().toISOString().slice(0,10)}.json`;
+            a.download = `ramadan30_pro_${new Date().toISOString().slice(0,10)}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
